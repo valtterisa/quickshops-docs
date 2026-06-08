@@ -1,6 +1,6 @@
 ---
 title: "Install and configure the Quickshops JavaScript SDK"
-sidebarTitle: "Installation"
+sidebarTitle: "SDK"
 description: "Install @quickshops/sdk, create a server-only client, and explore the complete method reference for building headless storefronts."
 ---
 
@@ -57,3 +57,17 @@ All SDK methods are `async` and return typed objects. They map directly to REST 
 `ProductDto` includes `_id`, `name`, `description`, `priceInCents`, `currency`, `type` (`"digital"` or `"subscription"`), `billingInterval`, `imageUrl`, `isActive`, `category`, and `details`.
 
 `StoreDto` includes `_id`, `slug`, `name`, `description`, `logoUrl`, `isPublished`, and `paymentsConfigured`.
+
+## Next steps
+
+<CardGroup cols={2}>
+  <Card title="Framework guides" icon="layers" href="/sdk/framework-guides">
+    Setup examples for Next.js, Remix, and other frameworks.
+  </Card>
+  <Card title="Error handling" icon="alert-triangle" href="/sdk/error-handling">
+    Handle API errors and retries in your app.
+  </Card>
+  <Card title="API reference" icon="book" href="/api/overview">
+    Full REST API documentation.
+  </Card>
+</CardGroup>

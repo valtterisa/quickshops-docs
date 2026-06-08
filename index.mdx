@@ -1,6 +1,6 @@
 ---
 title: Quickshops Documentation
-description: Everything you need to launch your Quickshops store, sell digital products and subscriptions, and build custom storefronts with the Headless API.
+description: Everything you need to launch your store, sell digital products, and build custom storefronts.
 mode: frame
 ---
 
@@ -10,7 +10,7 @@ mode: frame
       Quickshops
     </h1>
     <p className="text-balance text-base leading-relaxed tracking-tight text-gray-600 dark:text-gray-400">
-      Everything you need to launch your store, sell digital products and subscriptions, and build headless storefronts with the API.
+      Launch your store, sell digital products and subscriptions, and build headless storefronts with the API.
     </p>
   </div>
 
@@ -18,117 +18,41 @@ mode: frame
     <Card
       title={<span className="product-guide-feature-card-title">Get started</span>}
       icon="rocket"
-      href="/quickstart"
+      href="/introduction"
       className="product-guide-feature-card"
       size={64}
     >
-      <span className="product-guide-feature-card-description">Launch your store and make your first sale in minutes.</span>
+      <span className="product-guide-feature-card-description">Welcome to Quickshops and deploy your first store.</span>
     </Card>
 
-    <a
+    <Card
+      title={<span className="product-guide-feature-card-title">Core concepts</span>}
+      icon="book-open"
+      href="/store/overview"
+      className="product-guide-feature-card"
+      size={64}
+    >
+      <span className="product-guide-feature-card-description">How your store, products, and checkout work together.</span>
+    </Card>
+
+    <Card
+      title={<span className="product-guide-feature-card-title">Integrations</span>}
+      icon="plug"
+      href="/integrations/overview"
+      className="product-guide-feature-card"
+      size={64}
+    >
+      <span className="product-guide-feature-card-description">Stripe, Telegram, and webhooks.</span>
+    </Card>
+
+    <Card
+      title={<span className="product-guide-feature-card-title">Developers</span>}
+      icon="code"
       href="/api/overview"
-      className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
+      className="product-guide-feature-card"
+      size={64}
     >
-      <Icon icon="code" color="rgb(var(--primary))" size={18} className="shrink-0" />
-      <div className="flex flex-col gap-1">
-        <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Headless API</span>
-        <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-          Build custom storefronts with the REST API and JavaScript SDK.
-        </span>
-      </div>
-    </a>
-    <a
-      href="/integrations/payments"
-      className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-    >
-      <Icon icon="credit-card" color="rgb(var(--primary))" size={18} className="shrink-0" />
-      <div className="flex flex-col gap-1">
-        <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Payments</span>
-        <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-          Accept payments and manage subscriptions with Stripe.
-        </span>
-      </div>
-    </a>
-  </div>
-
-  <hr className="border-0 border-t border-border" />
-
-  <div className="flex flex-col gap-4">
-    <h2 className="font-serif text-xl font-medium leading-normal text-gray-900 dark:text-gray-50">Common tasks</h2>
-
-    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-      <a
-        href="/products/digital-products"
-        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-      >
-        <Icon icon="package" color="rgb(var(--primary))" size={18} className="shrink-0" />
-        <div className="flex flex-col gap-1">
-          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Create a product</span>
-          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Add digital products and files your customers can purchase and download.
-          </span>
-        </div>
-      </a>
-      <a
-        href="/store/customization"
-        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-      >
-        <Icon icon="paintbrush" color="rgb(var(--primary))" size={18} className="shrink-0" />
-        <div className="flex flex-col gap-1">
-          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Customize your store</span>
-          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Use the AI chat editor to change your store's look, copy, and products.
-          </span>
-        </div>
-      </a>
-      <a
-        href="/products/subscriptions"
-        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-      >
-        <Icon icon="repeat" color="rgb(var(--primary))" size={18} className="shrink-0" />
-        <div className="flex flex-col gap-1">
-          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Sell subscriptions</span>
-          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Offer monthly or yearly recurring plans with Stripe billing.
-          </span>
-        </div>
-      </a>
-      <a
-        href="/sdk/installation"
-        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-      >
-        <Icon icon="terminal" color="rgb(var(--primary))" size={18} className="shrink-0" />
-        <div className="flex flex-col gap-1">
-          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Install the SDK</span>
-          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Use the JavaScript SDK to fetch store and product data in your own app.
-          </span>
-        </div>
-      </a>
-      <a
-        href="/selling/orders"
-        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-      >
-        <Icon icon="shopping-bag" color="rgb(var(--primary))" size={18} className="shrink-0" />
-        <div className="flex flex-col gap-1">
-          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Manage orders</span>
-          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            View, track, and fulfill customer orders from your dashboard.
-          </span>
-        </div>
-      </a>
-      <a
-        href="/integrations/telegram"
-        className="rounded-2xl flex flex-col gap-4 border bg-gray-50 p-4 outline-none shadow-sm shadow-gray-950/5 transition hover:border-primary hover:shadow-md dark:bg-gray-950 dark:shadow-black/20 dark:hover:border-primary"
-      >
-        <Icon icon="message-circle" color="rgb(var(--primary))" size={18} className="shrink-0" />
-        <div className="flex flex-col gap-1">
-          <span className="font-serif text-base font-medium text-gray-900 dark:text-gray-50">Connect Telegram</span>
-          <span className="text-sm leading-relaxed text-gray-600 dark:text-gray-400">
-            Get store notifications and manage your store via Telegram.
-          </span>
-        </div>
-      </a>
-    </div>
+      <span className="product-guide-feature-card-description">REST API, JavaScript SDK, and AI/MCP.</span>
+    </Card>
   </div>
 </div>

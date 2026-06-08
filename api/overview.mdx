@@ -1,6 +1,6 @@
 ---
 title: "Quickshops Headless API Overview"
-sidebarTitle: "Overview"
+sidebarTitle: "API overview"
 description: "Learn how to use the Quickshops Headless REST API to build custom storefronts, manage carts, and trigger checkout from your own frontend."
 ---
 
@@ -71,3 +71,26 @@ All errors return a JSON body with the following shape:
 | `code`      | string | Machine-readable error code.                         |
 | `message`   | string | Human-readable description of the error.             |
 | `requestId` | string | Unique identifier for the request, useful for debugging. |
+
+## API reference
+
+<CardGroup cols={2}>
+  <Card title="Authentication" icon="key" href="/api/authentication">
+    API keys, scopes, and how to authenticate requests.
+  </Card>
+  <Card title="Products" icon="package" href="/api/products">
+    Fetch store and product data.
+  </Card>
+  <Card title="Cart" icon="shopping-cart" href="/api/cart">
+    Create and manage carts.
+  </Card>
+  <Card title="Checkout" icon="credit-card" href="/api/checkout">
+    Create Stripe Checkout sessions.
+  </Card>
+  <Card title="Subscriptions" icon="repeat" href="/api/subscriptions">
+    Manage subscription portal sessions.
+  </Card>
+  <Card title="SDK" icon="terminal" href="/sdk/installation">
+    Use the JavaScript SDK instead of raw HTTP requests.
+  </Card>
+</CardGroup>
