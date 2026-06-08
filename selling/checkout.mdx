@@ -27,6 +27,7 @@ When a customer buys from your store, Quickshops hands off the payment step to S
   Subscription purchases follow the same checkout flow. After payment, the customer's subscription is activated and they gain access to the member portal to manage their plan.
 </Note>
 
+{/* TODO: Re-enable when SDK launches
 ## For headless / API-driven storefronts
 
 If you are building a custom storefront using the Quickshops SDK, you manage the cart yourself and then create a Stripe Checkout session from your server.
@@ -56,14 +57,11 @@ If you are building a custom storefront using the Quickshops SDK, you manage the
 <Warning>
   The SDK is server-only. Never call `checkout.createSession()` from browser code — always invoke it from a server action, API route, or server-side loader.
 </Warning>
+*/}
 
 ## What the cart contains
 
-Each cart tracks the products and quantities the customer has selected, along with the subtotal and the final total charged in your store's currency. You can update or remove individual lines before creating the checkout session, making it straightforward to build a full cart editing experience.
-
-<Tip>
-  Use `cart.updateLine()` to change a quantity and `cart.removeLine()` to remove a product from the cart before the customer proceeds to payment.
-</Tip>
+Each cart tracks the products and quantities the customer has selected, along with the subtotal and the final total charged in your store's currency. Customers can update quantities or remove items from the cart page before proceeding to checkout.
 
 ## After payment
 

@@ -1,10 +1,10 @@
 ---
 title: "Set up your Quickshops account"
 sidebarTitle: "Account Setup"
-description: "A walkthrough of your Quickshops dashboard: connecting Stripe, configuring your store name and domain, managing team access, and finding your API keys."
+description: "A walkthrough of your Quickshops dashboard: connecting Stripe, configuring your store name and domain, and managing team access."
 ---
 
-After you deploy your first store, a few configuration steps will make it fully production-ready. This page covers the key settings you'll want to review: your store details, payment setup, domain, and API access for headless builds.
+After you deploy your first store, a few configuration steps will make it fully production-ready. This page covers the key settings you'll want to review: your store details, payment setup, and domain.
 
 ## Creating your account
 
@@ -18,11 +18,11 @@ Quickshops uses passwordless sign-in. Enter your email on the sign-up page and c
 
 When you log in, your dashboard shows your active store. The main navigation gives you access to:
 
-- **Store** — your storefront settings, template, and live URL.
+- **Store** — your storefront settings, theme, and live URL.
 - **Products** — create, edit, and manage your digital products and subscriptions.
 - **Orders** — view completed purchases and customer details.
 - **Analytics** — track visits, conversions, and revenue.
-- **Settings** — account details, Stripe connection, domain, and API keys.
+- **Settings** — account details, Stripe connection, and domain.
 
 ## Connecting Stripe
 
@@ -62,6 +62,7 @@ By default, your store runs on a Quickshops subdomain. To use your own domain, g
 
 Under **Settings → Notifications**, you can configure which events trigger emails — for example, new orders, failed payments, or subscription cancellations.
 
+{/* TODO: Re-enable when API and SDK launch
 ## API keys for headless access
 
 If you're building a custom storefront using the Quickshops Headless API or JavaScript SDK, you'll need an API key.
@@ -85,6 +86,7 @@ If you're building a custom storefront using the Quickshops Headless API or Java
 <Note>
   Rotate your API keys every 30–60 days as a security best practice. When you rotate, revoke the old key immediately after rolling out the new one.
 </Note>
+*/}
 
 ## What's next
 
@@ -95,10 +97,13 @@ If you're building a custom storefront using the Quickshops Headless API or Java
   <Card title="Add products" icon="package" href="/products/digital-products">
     Create or replace the digital products in your store.
   </Card>
+</CardGroup>
+
+{/* TODO: Re-enable when API and SDK launch
   <Card title="Headless API" icon="code" href="/api/overview">
     Build a fully custom storefront with the REST API and JavaScript SDK.
   </Card>
   <Card title="SDK installation" icon="terminal" href="/sdk/installation">
     Install the JavaScript SDK and connect it to your store.
   </Card>
-</CardGroup>
+*/}

@@ -1,6 +1,6 @@
 ---
 title: Quickshops Documentation
-description: Everything you need to launch your store, sell digital products, and build custom storefronts.
+description: Everything you need to launch your store and sell digital products.
 mode: frame
 ---
 
@@ -10,7 +10,7 @@ mode: frame
       Quickshops
     </h1>
     <p className="text-balance text-base leading-relaxed tracking-tight text-gray-600 dark:text-gray-400">
-      Launch your store, sell digital products and subscriptions, and build headless storefronts with the API.
+      Launch your store, sell digital products and subscriptions, and customize everything with the AI editor.
     </p>
   </div>
 
@@ -46,13 +46,25 @@ mode: frame
     </Card>
 
     <Card
-      title={<span className="product-guide-feature-card-title">Developers</span>}
-      icon="code"
-      href="/api/overview"
+      title={<span className="product-guide-feature-card-title">Customize your store</span>}
+      icon="paintbrush"
+      href="/store/customization"
       className="product-guide-feature-card"
       size={64}
     >
-      <span className="product-guide-feature-card-description">REST API, JavaScript SDK, and AI/MCP.</span>
+      <span className="product-guide-feature-card-description">Products, pricing, copy, and themes with the AI editor.</span>
     </Card>
   </div>
+
+  {/* TODO: Re-enable when API, SDK, and MCP launch
+  <Card
+    title={<span className="product-guide-feature-card-title">Developers</span>}
+    icon="code"
+    href="/api/overview"
+    className="product-guide-feature-card"
+    size={64}
+  >
+    <span className="product-guide-feature-card-description">REST API, JavaScript SDK, and AI/MCP.</span>
+  </Card>
+  */}
 </div>
