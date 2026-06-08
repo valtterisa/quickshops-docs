@@ -1,0 +1,82 @@
+---
+title: "Create and Manage Subscription Products"
+sidebarTitle: "Subscriptions"
+description: "Charge customers on a recurring monthly or yearly basis. Subscribers get access to a self-service portal to manage their own billing."
+---
+
+Subscription products let you charge customers automatically on a regular schedule — monthly or yearly — instead of a single one-time payment. This is ideal for membership communities, ongoing access to content libraries, software tools, or any product where you deliver continuous value over time.
+
+<Info>
+  Subscriptions are powered by Stripe. You must connect a Stripe account under **Settings → Payments** before you can publish a subscription product or accept recurring payments.
+</Info>
+
+## Create a subscription product
+
+<Steps>
+  <Step title="Open the Products section">
+    In your dashboard, click **Products** in the left sidebar, then click **New Product**.
+  </Step>
+  <Step title="Choose Subscription as the product type">
+    Under **Product Type**, select **Subscription**. This tells Quickshops to set up recurring billing through Stripe rather than a one-time charge.
+  </Step>
+  <Step title="Fill in the basics">
+    Enter a **Name**, optional **Description**, and any **Details** bullet points that describe what subscribers receive. Add a cover image to represent the product on your storefront.
+  </Step>
+  <Step title="Set the billing interval">
+    Choose how often customers are billed — **Monthly** or **Yearly**. See the examples below to help you decide.
+  </Step>
+  <Step title="Set the price">
+    Enter the recurring price in your store's currency. This is the amount charged each billing cycle.
+  </Step>
+  <Step title="Publish your product">
+    Toggle the product to **Active** and click **Save**. Your subscription is now live and customers can sign up directly from your storefront.
+  </Step>
+</Steps>
+
+## Monthly vs yearly billing
+
+<Tabs>
+  <Tab title="Monthly billing">
+    Customers are charged once per month on the same date they first subscribed.
+
+    **Best for:**
+    - Lower-commitment offers where customers want flexibility
+    - Products with a steady monthly value delivery (newsletters, coaching, tools)
+    - Audiences who prefer spreading out costs
+
+    **Example pricing:** $15/month for access to a private community and weekly resources.
+  </Tab>
+  <Tab title="Yearly billing">
+    Customers are charged once per year. Many stores offer a discount compared to 12 months of monthly billing to incentivize the annual plan.
+
+    **Best for:**
+    - Customers who prefer paying upfront and want a lower overall cost
+    - Products with long-term ongoing value (software, course libraries)
+    - Improving cash flow with larger, predictable payments
+
+    **Example pricing:** $120/year (equivalent to $10/month) for the same community access — saving customers $60 compared to the monthly plan.
+  </Tab>
+</Tabs>
+
+## The subscriber portal
+
+Every subscriber gets access to a self-service portal where they can:
+
+- View their active subscriptions
+- Update their payment method
+- Cancel or pause a subscription
+- Download invoices and receipts
+
+You do not need to handle cancellations or billing changes manually. Stripe manages the billing cycle and keeps your subscriber list in sync automatically.
+
+<Tip>
+  Include a link to the subscriber portal in your post-purchase email or product delivery page so customers can easily manage their billing without contacting you.
+</Tip>
+
+## Managing subscription products
+
+From the **Products** list you can edit, deactivate, or duplicate a subscription product the same way you would a digital product. Deactivating a subscription product prevents new customers from signing up, but does not cancel existing active subscriptions.
+
+<Warning>
+  Changes to pricing on a subscription product apply to **new subscribers only**. Existing subscribers continue to be billed at the price they originally signed up for unless you update their subscription manually in Stripe.
+</Warning>

@@ -1,0 +1,127 @@
+{
+  "projectType": "saas",
+  "projectName": "Quickshops",
+  "projectDescription": "A platform to launch and sell digital products and subscriptions through beautiful storefronts, customizable in minutes via an AI chat interface.",
+  "theme": "almond",
+  "primaryColor": "#7af8d9",
+  "lightColor": "#272829",
+  "darkColor": "#ecf4f4",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "quickstart",
+              "account-setup"
+            ]
+          },
+          {
+            "group": "Your Store",
+            "pages": [
+              "store/overview",
+              "store/templates",
+              "store/customization",
+              "store/domains"
+            ]
+          },
+          {
+            "group": "Products",
+            "pages": [
+              "products/digital-products",
+              "products/subscriptions",
+              "products/discounts"
+            ]
+          },
+          {
+            "group": "Selling",
+            "pages": [
+              "selling/checkout",
+              "selling/orders",
+              "selling/customers",
+              "selling/analytics"
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "integrations/payments",
+              "integrations/telegram",
+              "integrations/webhooks"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "SDK & API",
+        "groups": [
+          {
+            "group": "Headless API",
+            "pages": [
+              "api/overview",
+              "api/authentication",
+              "api/products",
+              "api/cart",
+              "api/checkout",
+              "api/subscriptions"
+            ]
+          },
+          {
+            "group": "JavaScript SDK",
+            "pages": [
+              "sdk/installation",
+              "sdk/framework-guides",
+              "sdk/error-handling"
+            ]
+          },
+          {
+            "group": "AI & MCP",
+            "pages": [
+              "mcp/overview",
+              "mcp/connecting"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "One-click storefront deployment from pre-built templates",
+    "AI chat interface to edit and customize your store",
+    "Digital products and subscription billing via Stripe",
+    "Orders, customers, and analytics dashboard",
+    "Headless REST API for external integrations",
+    "JavaScript SDK for server-side storefront rendering",
+    "MCP server for AI agent access to store data",
+    "Discount codes and promotional pricing",
+    "Media management for product assets",
+    "Telegram integration for store notifications"
+  ],
+  "publicApiSurface": [
+    "GET /v1/products/store",
+    "GET /v1/products",
+    "GET /v1/products/:productId",
+    "GET /v1/cart/:cartId",
+    "POST /v1/cart",
+    "POST /v1/cart/:cartId/lines",
+    "PATCH /v1/cart/:cartId/lines/:productId",
+    "DELETE /v1/cart/:cartId/lines/:productId",
+    "DELETE /v1/cart/:cartId",
+    "POST /v1/checkout/session",
+    "POST /v1/subscription/portal",
+    "qs.store.get()",
+    "qs.products.getAll()",
+    "qs.products.getById(productId)",
+    "qs.cart.create()",
+    "qs.cart.get(cartId)",
+    "qs.cart.addLine(cartId, productId, quantity)",
+    "qs.cart.updateLine(cartId, productId, quantity)",
+    "qs.cart.removeLine(cartId, productId)",
+    "qs.cart.clear(cartId)",
+    "qs.checkout.createSession(cartId)",
+    "qs.subscription.createPortalSession(memberSessionId)"
+  ]
+}

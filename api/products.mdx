@@ -1,0 +1,204 @@
+---
+title: "Products API — Quickshops Headless REST API"
+sidebarTitle: "Products"
+description: "Fetch your store profile and product catalog using the Quickshops Headless API. All product endpoints require a valid API key but do not require a secret key."
+---
+
+The Products endpoints let you retrieve your store's public profile and its active product catalog. These are typically called server-side when rendering storefront pages. All three endpoints require a valid `x-api-key` header, but a public key is sufficient — you do not need a secret key.
+
+---
+
+## Get store
+
+Retrieves the public profile of the store associated with your API key.
+
+```
+GET /v1/products/store
+```
+
+### Request
+
+```bash
+curl https://api.quickshops.app/v1/products/store \
+  -H "x-api-key: qk_your_key_here"
+```
+
+### Response
+
+```json
+{
+  "data": {
+    "_id": "store_01j...",
+    "slug": "my-store",
+    "name": "My Store",
+    "description": "The best products on the internet.",
+    "logoUrl": "https://cdn.example.com/logo.png",
+    "isPublished": true,
+    "paymentsConfigured": true
+  }
+}
+```
+
+<ResponseField name="_id" type="string" required>
+  Unique identifier for the store.
+</ResponseField>
+
+<ResponseField name="slug" type="string" required>
+  URL-safe identifier for the store, used in storefronts and public URLs.
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Display name of the store.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Optional description of the store.
+</ResponseField>
+
+<ResponseField name="logoUrl" type="string">
+  URL of the store's logo image, if one has been uploaded.
+</ResponseField>
+
+<ResponseField name="isPublished" type="boolean" required>
+  Whether the store is live and publicly accessible.
+</ResponseField>
+
+<ResponseField name="paymentsConfigured" type="boolean" required>
+  Whether Stripe payments have been connected. Checkout will fail if this is `false`.
+</ResponseField>
+
+---
+
+## List products
+
+Returns all active products for the store.
+
+```
+GET /v1/products
+```
+
+### Request
+
+```bash
+curl https://api.quickshops.app/v1/products \
+  -H "x-api-key: qk_your_key_here"
+```
+
+### Response
+
+Returns an object with a `data` array of product objects.
+
+```json
+{
+  "data": [
+    {
+      "_id": "prod_01j...",
+      "storeId": "store_01j...",
+      "name": "Pro Plan",
+      "description": "Access to all premium features.",
+      "priceInCents": 1999,
+      "currency": "usd",
+      "type": "subscription",
+      "billingInterval": "month",
+      "imageUrl": "https://cdn.example.com/pro-plan.png",
+      "isActive": true,
+      "category": "plans",
+      "details": ["Unlimited projects", "Priority support"]
+    }
+  ]
+}
+```
+
+<ResponseField name="_id" type="string" required>
+  Unique identifier for the product.
+</ResponseField>
+
+<ResponseField name="storeId" type="string" required>
+  Identifier of the store this product belongs to.
+</ResponseField>
+
+<ResponseField name="name" type="string" required>
+  Display name of the product.
+</ResponseField>
+
+<ResponseField name="description" type="string">
+  Description of the product. May be `null`.
+</ResponseField>
+
+<ResponseField name="priceInCents" type="number" required>
+  Price in the smallest unit of the currency (e.g. cents for USD). Divide by 100 to get the display amount.
+</ResponseField>
+
+<ResponseField name="currency" type="string" required>
+  ISO 4217 currency code in lowercase (e.g. `"usd"`, `"eur"`).
+</ResponseField>
+
+<ResponseField name="type" type="string" required>
+  Product type. One of `"digital"` or `"subscription"`.
+</ResponseField>
+
+<ResponseField name="billingInterval" type="string">
+  For subscription products, the billing frequency: `"month"` or `"year"`. `null` for digital products.
+</ResponseField>
+
+<ResponseField name="imageUrl" type="string">
+  URL of the product image. May be `null`.
+</ResponseField>
+
+<ResponseField name="isActive" type="boolean" required>
+  Whether the product is active and available for purchase.
+</ResponseField>
+
+<ResponseField name="category" type="string">
+  Optional category label for grouping products in your storefront. May be `null`.
+</ResponseField>
+
+<ResponseField name="details" type="string[]">
+  Array of short feature or detail strings to display on the product listing. May be `null`.
+</ResponseField>
+
+---
+
+## Get product
+
+Retrieves a single product by its ID.
+
+```
+GET /v1/products/:productId
+```
+
+### Path parameters
+
+<ParamField path="productId" type="string" required>
+  The unique identifier of the product to retrieve.
+</ParamField>
+
+### Request
+
+```bash
+curl https://api.quickshops.app/v1/products/prod_01j... \
+  -H "x-api-key: qk_your_key_here"
+```
+
+### Response
+
+Returns a `data` object containing the product.
+
+```json
+{
+  "data": {
+    "_id": "prod_01j...",
+    "storeId": "store_01j...",
+    "name": "Pro Plan",
+    "description": "Access to all premium features.",
+    "priceInCents": 1999,
+    "currency": "usd",
+    "type": "subscription",
+    "billingInterval": "month",
+    "imageUrl": "https://cdn.example.com/pro-plan.png",
+    "isActive": true,
+    "category": "plans",
+    "details": ["Unlimited projects", "Priority support"]
+  }
+}
+```

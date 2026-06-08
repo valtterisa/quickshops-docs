@@ -1,0 +1,77 @@
+---
+title: "Authenticating with the Quickshops Headless API"
+sidebarTitle: "Authentication"
+description: "Learn how to create and use API keys to authenticate requests to the Quickshops Headless API, including key types and rotation best practices."
+---
+
+Every request to a protected Quickshops Headless API endpoint must include an `x-api-key` header with a valid headless API key. Keys are issued from your Quickshops dashboard and always begin with `qk_`. The API never stores your key in plaintext — it is hashed before being looked up.
+
+## Creating an API key
+
+<Steps>
+  <Step title="Open your dashboard">
+    Log in to your Quickshops dashboard.
+  </Step>
+  <Step title="Go to Settings → API Keys">
+    Navigate to **Settings** in the sidebar, then select **API Keys**.
+  </Step>
+  <Step title="Create a key">
+    Click **Create key**, select the appropriate key type, and confirm.
+  </Step>
+  <Step title="Copy the key immediately">
+    The plaintext key is only shown once. Copy it and store it in a secure location such as an environment variable or a secrets manager. You cannot retrieve it again after leaving this screen.
+  </Step>
+</Steps>
+
+## Key types
+
+There are two key types. Choose the one that matches the operations your integration needs to perform.
+
+| Key type   | Read products & store | Cart, checkout, subscriptions |
+| ---------- | --------------------- | ----------------------------- |
+| Public     | Yes                   | No                            |
+| Secret     | Yes                   | Yes                           |
+
+Use the most restrictive key type that your integration requires. If your storefront only needs to display products, a public key is sufficient. If you are managing carts or initiating checkout, you need a secret key.
+
+<Warning>
+  Never expose a secret key in client-side code or public repositories. Use secret keys only in server-side environments where they cannot be accessed by end users.
+</Warning>
+
+## Using your API key
+
+Pass the key in the `x-api-key` header on every request.
+
+```bash
+curl https://api.quickshops.app/v1/products \
+  -H "x-api-key: qk_your_key_here"
+```
+
+Your environment configuration should look something like this:
+
+```bash
+HEADLESS_API_KEY=qk_...
+```
+
+Then read the variable in your server-side code and include it in each request header. Do not hard-code the key in source files.
+
+## Key rotation
+
+Rotate your keys regularly to reduce the blast radius of a potential compromise.
+
+- Rotate every **30–60 days** as a baseline.
+- Issue the new key, deploy your integration with the new key, then **immediately revoke the old key**.
+- Verify that all services using the old key have been updated before revoking it.
+
+You can revoke a key at any time from **Settings → API Keys** in your dashboard.
+
+## Common authentication errors
+
+| Error message                | Cause                                                               |
+| ---------------------------- | ------------------------------------------------------------------- |
+| `API key required`           | The `x-api-key` header was not included in the request.             |
+| `Missing or invalid API key` | The key is missing, malformed, or has been revoked.                 |
+| `Scope ... required`         | The endpoint requires a secret key but a public key was provided.   |
+| `Rate limit exceeded`        | The key or endpoint has exceeded its request limit. Retry later.    |
+
+All errors are returned as JSON with `status`, `code`, `message`, and `requestId` fields. See [Overview](/api/overview) for the full error format.

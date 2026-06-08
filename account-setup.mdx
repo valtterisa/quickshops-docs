@@ -1,0 +1,104 @@
+---
+title: "Set up your Quickshops account"
+sidebarTitle: "Account Setup"
+description: "A walkthrough of your Quickshops dashboard: connecting Stripe, configuring your store name and domain, managing team access, and finding your API keys."
+---
+
+After you deploy your first store, a few configuration steps will make it fully production-ready. This page covers the key settings you'll want to review: your store details, payment setup, domain, and API access for headless builds.
+
+## Creating your account
+
+Quickshops uses passwordless sign-in. Enter your email on the sign-up page and click the magic link sent to your inbox. Every subsequent login works the same way — no password to remember or reset.
+
+<Info>
+  If you don't receive the magic link within a minute, check your spam folder or try signing in again from the login page.
+</Info>
+
+## Navigating the dashboard
+
+When you log in, your dashboard shows your active store. The main navigation gives you access to:
+
+- **Store** — your storefront settings, template, and live URL.
+- **Products** — create, edit, and manage your digital products and subscriptions.
+- **Orders** — view completed purchases and customer details.
+- **Analytics** — track visits, conversions, and revenue.
+- **Settings** — account details, Stripe connection, domain, and API keys.
+
+## Connecting Stripe
+
+Quickshops uses Stripe to process all payments. You need to connect your Stripe account before customers can complete purchases.
+
+<Steps>
+  <Step title="Open payment settings">
+    In your dashboard, go to **Settings → Payments**.
+  </Step>
+  <Step title="Connect your Stripe account">
+    Click **Connect Stripe**. You'll be redirected to Stripe's OAuth flow. If you already have a Stripe account, log in and authorize the connection. If not, you can create a new account during this step.
+  </Step>
+  <Step title="Confirm the connection">
+    After authorizing, you'll be redirected back to your Quickshops dashboard. The **Payments** settings page will show your connected Stripe account.
+  </Step>
+</Steps>
+
+<Warning>
+  Customers cannot complete purchases until Stripe is connected. Your store URL is live and shareable right away, but the checkout flow requires an active Stripe connection.
+</Warning>
+
+## Key settings to configure
+
+### Store name and email
+
+Go to **Settings → General** to set your store's display name and the sender email address used for order confirmations and delivery emails. Use an email address your customers will recognize.
+
+### Custom domain
+
+By default, your store runs on a Quickshops subdomain. To use your own domain, go to **Settings → Domains**, enter your domain, and follow the DNS instructions shown on screen.
+
+<Tip>
+  DNS changes can take up to 48 hours to propagate, but most updates apply within a few minutes.
+</Tip>
+
+### Email notifications
+
+Under **Settings → Notifications**, you can configure which events trigger emails — for example, new orders, failed payments, or subscription cancellations.
+
+## API keys for headless access
+
+If you're building a custom storefront using the Quickshops Headless API or JavaScript SDK, you'll need an API key.
+
+<Steps>
+  <Step title="Open API settings">
+    Go to **Settings → API keys** in your dashboard.
+  </Step>
+  <Step title="Issue a key">
+    Click **New key**, give it a name, and select the scopes your integration needs. Click **Create**.
+  </Step>
+  <Step title="Copy the key immediately">
+    The full key value is only shown once. Copy it and store it securely — for example, as an environment variable named `HEADLESS_API_KEY` in your application.
+  </Step>
+</Steps>
+
+<Warning>
+  Never expose your API key in client-side code or public repositories. Use it only in server-side environments such as server components, loaders, or backend API routes.
+</Warning>
+
+<Note>
+  Rotate your API keys every 30–60 days as a security best practice. When you rotate, revoke the old key immediately after rolling out the new one.
+</Note>
+
+## What's next
+
+<CardGroup cols={2}>
+  <Card title="Customize your store" icon="paintbrush" href="/store/customization">
+    Use the AI chat editor to update your store's look, copy, and products.
+  </Card>
+  <Card title="Add products" icon="package" href="/products/digital-products">
+    Create or replace the digital products in your store.
+  </Card>
+  <Card title="Headless API" icon="code" href="/api/overview">
+    Build a fully custom storefront with the REST API and JavaScript SDK.
+  </Card>
+  <Card title="SDK installation" icon="terminal" href="/sdk/installation">
+    Install the JavaScript SDK and connect it to your store.
+  </Card>
+</CardGroup>

@@ -1,0 +1,60 @@
+---
+title: "Custom Domains: Use Your Own URL for Your Store"
+sidebarTitle: "Domains"
+description: "Every store starts with a free Quickshops subdomain. Connect your own domain from Settings to give your store a branded, professional address."
+---
+
+Every Quickshops store gets a free subdomain as soon as you deploy, so you can start sharing your store link right away. When you are ready to give your store a fully branded address, you can connect any domain you own and your store will be accessible there within minutes of updating your DNS records.
+
+## Your default subdomain
+
+Your store is immediately available at:
+
+```
+yourstore.quickshops.app
+```
+
+The subdomain is based on your store slug, which you can update in **Settings → General**. This address is always active — even after you connect a custom domain — so existing links you have shared will continue to work.
+
+## Connecting a custom domain
+
+<Steps>
+  <Step title="Go to Settings → Domain">
+    Open your dashboard and navigate to **Settings**, then select the **Domain** tab.
+  </Step>
+  <Step title="Enter your domain">
+    Type the domain or subdomain you want to use — for example `shop.yourbrand.com` or `store.yourdomain.com`. Click **Save** to generate the DNS records you need to add.
+  </Step>
+  <Step title="Add the DNS records">
+    Log in to your domain registrar or DNS provider (such as Namecheap, Cloudflare, GoDaddy, or Google Domains). Add the records shown in your Quickshops settings. Typically this is one `CNAME` record pointing your subdomain to Quickshops.
+
+    | Type | Name | Value |
+    |------|------|-------|
+    | CNAME | `shop` (or your chosen subdomain) | Shown in your settings |
+
+  </Step>
+  <Step title="Wait for DNS propagation">
+    DNS changes can take a few minutes to a few hours to propagate globally. Quickshops will automatically detect when your records are in place and activate the domain.
+  </Step>
+  <Step title="Your custom domain is live">
+    Once verified, your store loads at your custom domain. Quickshops handles SSL automatically, so your store is always served over HTTPS.
+  </Step>
+</Steps>
+
+<Note>
+  SSL certificates are provisioned automatically. You do not need to set up or renew anything yourself.
+</Note>
+
+## Tips for connecting your domain
+
+<Tip>
+  Use a subdomain like `shop.yourdomain.com` rather than a root domain (also called an apex domain, e.g. `yourdomain.com`). Subdomains work reliably with a `CNAME` record and are simpler to configure across all DNS providers.
+</Tip>
+
+<Warning>
+  If you are using Cloudflare, make sure the proxy status for your DNS record is set to **DNS only** (the cloud icon should be grey, not orange) during initial setup. You can re-enable proxying after the domain has been verified by Quickshops.
+</Warning>
+
+## Removing a custom domain
+
+To stop using a custom domain, go to **Settings → Domain** and remove it. Your store will continue to be available at your original `quickshops.app` subdomain.

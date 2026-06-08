@@ -1,0 +1,83 @@
+---
+title: "Send Store Events to Your Systems with Webhooks"
+sidebarTitle: "Webhooks"
+description: "Use Quickshops webhooks to notify your external apps and services when orders are placed, subscriptions change, or payments fail in real time."
+---
+
+Webhooks let you connect Quickshops to your own systems. Whenever something important happens in your store — a new order, a subscription cancellation, a failed payment — Quickshops sends an HTTP POST request to a URL you specify, so your external tools can react instantly.
+
+## Events you can subscribe to
+
+| Event | When it fires |
+|---|---|
+| `order.completed` | A customer completes a one-time purchase |
+| `subscription.created` | A customer starts a new subscription |
+| `subscription.cancelled` | A subscription is cancelled |
+| `subscription.payment_failed` | A subscription renewal payment fails |
+
+## Set up a webhook endpoint
+
+<Steps>
+  <Step title="Open Webhook settings">
+    In your dashboard, go to **Settings → Webhooks**.
+  </Step>
+  <Step title="Add an endpoint">
+    Click **Add Endpoint** and enter the URL of your server or service that will receive the events.
+  </Step>
+  <Step title="Select events">
+    Choose which events you want this endpoint to receive. You can subscribe to one event or multiple.
+  </Step>
+  <Step title="Save">
+    Click **Save**. Quickshops will start delivering matching events to your endpoint immediately.
+  </Step>
+</Steps>
+
+<Tip>
+  If you need to test your endpoint before pointing it at production, tools like [Webhook.site](https://webhook.site) or [ngrok](https://ngrok.com) let you inspect incoming payloads in real time.
+</Tip>
+
+## Webhook payload format
+
+Every webhook Quickshops sends is a JSON object with three top-level fields:
+
+- `event` — the name of the event that fired
+- `timestamp` — the time the event occurred, in ISO 8601 format
+- `data` — an object containing the details of the event
+
+Here is an example payload for a completed order:
+
+```json
+{
+  "event": "order.completed",
+  "timestamp": "2024-01-15T10:30:00Z",
+  "data": {
+    "orderId": "ord_abc123",
+    "customerEmail": "customer@example.com",
+    "productId": "prod_xyz",
+    "amountInCents": 2900,
+    "currency": "usd"
+  }
+}
+```
+
+## Verifying webhook signatures
+
+Every request Quickshops sends to your endpoint includes a signature header. You should use this signature to confirm the request genuinely came from Quickshops before acting on the payload.
+
+<Warning>
+  Always verify the webhook signature before processing any event. Without verification, a malicious party could send fake payloads to your endpoint and trigger unintended actions in your system.
+</Warning>
+
+The signature is included in the `X-Quickshops-Signature` header of each request. To verify it, compute an HMAC of the raw request body using your webhook's signing secret (shown in **Settings → Webhooks** when you view an endpoint), and compare it to the value in the header. Only process the event if they match.
+
+## Retries and failures
+
+If your endpoint returns a non-2xx HTTP status code or doesn't respond within the timeout window, Quickshops will retry delivery. You can view delivery attempts and their status for each endpoint from **Settings → Webhooks**.
+
+<Info>
+  Make your endpoint idempotent where possible — use the `orderId` or other unique identifiers in the payload to avoid processing the same event twice if a retry occurs.
+</Info>
+
+## Managing endpoints
+
+You can add multiple endpoints to receive the same or different events. To edit, pause, or remove an endpoint, go to **Settings → Webhooks** and select the endpoint you want to manage.

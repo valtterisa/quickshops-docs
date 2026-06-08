@@ -1,0 +1,73 @@
+---
+title: "Quickshops Headless API Overview"
+sidebarTitle: "Overview"
+description: "Learn how to use the Quickshops Headless REST API to build custom storefronts, manage carts, and trigger checkout from your own frontend."
+---
+
+The Quickshops Headless API is a REST API that lets you build fully custom storefronts on top of your Quickshops store. Instead of using a Quickshops-managed template, you fetch store data, manage carts, and initiate checkout from your own frontend or backend using standard HTTP requests. All responses are JSON.
+
+## Base URL
+
+```
+https://api.quickshops.app/v1
+```
+
+All examples in this documentation use this base URL. Use it directly when making requests with your API key.
+
+## Versioning
+
+The API is currently at version `v1`. The version is part of the URL path. Breaking changes will be introduced under a new version prefix, and the previous version will continue to work during a deprecation window.
+
+## Routes
+
+The table below lists every available endpoint, whether authentication is required, and whether a secret key is needed.
+
+| Method     | Path                                    | Auth required | Secret key required |
+| ---------- | --------------------------------------- | ------------- | ------------------- |
+| `GET`      | `/v1/health`                            | No            | No                  |
+| `GET`      | `/v1/products/store`                    | Yes           | No                  |
+| `GET`      | `/v1/products`                          | Yes           | No                  |
+| `GET`      | `/v1/products/:productId`               | Yes           | No                  |
+| `GET`      | `/v1/cart/:cartId`                      | Yes           | Yes                 |
+| `POST`     | `/v1/cart`                              | Yes           | Yes                 |
+| `POST`     | `/v1/cart/:cartId/lines`                | Yes           | Yes                 |
+| `PATCH`    | `/v1/cart/:cartId/lines/:productId`     | Yes           | Yes                 |
+| `DELETE`   | `/v1/cart/:cartId/lines/:productId`     | Yes           | Yes                 |
+| `DELETE`   | `/v1/cart/:cartId`                      | Yes           | Yes                 |
+| `POST`     | `/v1/checkout/session`                  | Yes           | Yes                 |
+| `POST`     | `/v1/subscription/portal`               | Yes           | Yes                 |
+
+## Authentication
+
+Every protected request requires an `x-api-key` header containing a headless API key obtained from your dashboard.
+
+```bash
+curl https://api.quickshops.app/v1/products \
+  -H "x-api-key: qk_your_key_here"
+```
+
+Product read endpoints accept any valid key. Cart, checkout, and subscription endpoints require a **secret** key. See [Authentication](/api/authentication) for details on key types and how to obtain them.
+
+## Rate limiting
+
+Rate limits are enforced per key and per endpoint. If you exceed a limit you will receive a `429` response. Back off and retry after a short delay. The specific limits vary by endpoint category.
+
+## Error format
+
+All errors return a JSON body with the following shape:
+
+```json
+{
+  "status": 401,
+  "code": "MISSING_OR_INVALID_API_KEY",
+  "message": "Missing or invalid API key",
+  "requestId": "req_01j..."
+}
+```
+
+| Field       | Type   | Description                                          |
+| ----------- | ------ | ---------------------------------------------------- |
+| `status`    | number | HTTP status code.                                    |
+| `code`      | string | Machine-readable error code.                         |
+| `message`   | string | Human-readable description of the error.             |
+| `requestId` | string | Unique identifier for the request, useful for debugging. |

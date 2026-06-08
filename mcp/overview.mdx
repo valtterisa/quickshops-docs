@@ -1,0 +1,61 @@
+---
+title: "AI & MCP: Connect AI Agents to Your Store"
+sidebarTitle: "Overview"
+description: "Quickshops supports MCP, making every store operation available as an AI-callable tool. Connect Claude, Cursor, or any MCP agent to your store."
+---
+
+Quickshops implements the [Model Context Protocol (MCP)](https://modelcontextprotocol.io/), which means every operation available through the REST API is also available as a structured tool that any MCP-compatible AI agent can call. You can connect Claude Desktop, Cursor, or your own custom LLM agent to your store and let it perform real actions — listing products, building a cart, or generating a checkout URL — without writing any integration code yourself.
+
+## How it works
+
+The MCP server runs alongside the REST API and automatically generates one tool per API route. Tool names are derived directly from the HTTP method and path, so the mapping is always predictable:
+
+| REST route | MCP tool name |
+|---|---|
+| `GET /v1/products` | `get_products` |
+| `POST /v1/cart` | `post_cart` |
+| `POST /v1/cart/:cartId/lines` | `post_cart_cartId_lines` |
+| `POST /v1/checkout/session` | `post_checkout_session` |
+
+When an AI agent calls a tool, the MCP server proxies the request directly into the REST API on your behalf. Your API key is forwarded through the entire chain, so the same authentication and rate-limiting rules apply whether a request arrives via MCP or REST.
+
+## Transport
+
+The MCP server uses **Streamable HTTP** transport — MCP over HTTP with SSE for server-to-client notifications. Three endpoints handle the full session lifecycle:
+
+| Method | Path | Purpose |
+|---|---|---|
+| `POST` | `/mcp` | Initialize a session or dispatch a tool call |
+| `GET` | `/mcp` | SSE stream for server notifications |
+| `DELETE` | `/mcp` | Terminate a session |
+
+Sessions are identified by the `mcp-session-id` header, which is assigned during the `initialize` handshake.
+
+## Authentication
+
+Authentication uses the same `x-api-key` header as the REST API. Pass your headless API key with every request:
+
+```
+x-api-key: qk_your_key_here
+```
+
+Your key is validated on every HTTP request before it reaches the MCP layer. An invalid or missing key returns HTTP `401` immediately.
+
+<Warning>
+Tools that wrap cart, checkout, and subscription routes require a **secret key**. If you connect with a public (read-only) key, those tools will return a tool-level error when called. Read-only tools like `get_products` will still work.
+</Warning>
+
+## MCP server endpoint
+
+```
+https://mcp.quickshops.dev/mcp
+```
+
+<CardGroup cols={2}>
+  <Card title="Connect your AI client" icon="plug" href="/mcp/connecting">
+    Step-by-step instructions for Claude Desktop, Cursor, and custom MCP clients.
+  </Card>
+  <Card title="REST API reference" icon="code" href="/api/overview">
+    Explore the underlying REST endpoints that every MCP tool maps to.
+  </Card>
+</CardGroup>

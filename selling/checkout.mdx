@@ -1,0 +1,74 @@
+---
+title: "How Checkout Works in Your Quickshops Store"
+sidebarTitle: "Checkout"
+description: "Learn how customers pay for your digital products and subscriptions, from adding items to a cart through to receiving their purchase by email."
+---
+
+When a customer buys from your store, Quickshops hands off the payment step to Stripe — a PCI-compliant, industry-standard payment processor. You never handle raw card data, and your customers see a professional, trusted checkout experience. After a successful payment, Quickshops automatically delivers the purchase to the customer by email.
+
+## How the checkout flow works
+
+<Steps>
+  <Step title="Customer adds items to a cart">
+    Each product in your store has an "Add to cart" button. Items are collected in a cart, which tracks the products, quantities, subtotal, and total.
+  </Step>
+  <Step title="Customer proceeds to checkout">
+    When the customer is ready, they click the checkout button. Quickshops creates a Stripe Checkout session and redirects the customer to a Stripe-hosted payment page.
+  </Step>
+  <Step title="Payment is processed by Stripe">
+    The customer enters their card details on Stripe's secure payment page. Quickshops never sees or stores card numbers — Stripe handles all payment processing and fraud protection.
+  </Step>
+  <Step title="Customer receives their purchase by email">
+    As soon as the payment succeeds, Quickshops automatically sends the customer an email containing their download link (for digital products) or subscription confirmation. No manual fulfillment is needed on your part.
+  </Step>
+</Steps>
+
+<Note>
+  Subscription purchases follow the same checkout flow. After payment, the customer's subscription is activated and they gain access to the member portal to manage their plan.
+</Note>
+
+## For headless / API-driven storefronts
+
+If you are building a custom storefront using the Quickshops SDK, you manage the cart yourself and then create a Stripe Checkout session from your server.
+
+<Steps>
+  <Step title="Create a cart and add items">
+    Call `cart.create()` to get a new cart, then add products to it using `cart.addLine()`.
+
+    ```ts
+    const cart = await qs.cart.create();
+    const updatedCart = await qs.cart.addLine(cart.id, productId, 1);
+    ```
+  </Step>
+  <Step title="Create a checkout session">
+    Once the cart is ready, call `checkout.createSession()` with the cart ID. This returns a Stripe Checkout URL.
+
+    ```ts
+    const { url } = await qs.checkout.createSession(cart.id);
+    // redirect the customer to `url`
+    ```
+  </Step>
+  <Step title="Redirect the customer to Stripe">
+    Send the customer to the returned URL. Stripe displays the payment form, collects payment, and notifies Quickshops when it succeeds.
+  </Step>
+</Steps>
+
+<Warning>
+  The SDK is server-only. Never call `checkout.createSession()` from browser code — always invoke it from a server action, API route, or server-side loader.
+</Warning>
+
+## What the cart contains
+
+Each cart tracks the products and quantities the customer has selected, along with the subtotal and the final total charged in your store's currency. You can update or remove individual lines before creating the checkout session, making it straightforward to build a full cart editing experience.
+
+<Tip>
+  Use `cart.updateLine()` to change a quantity and `cart.removeLine()` to remove a product from the cart before the customer proceeds to payment.
+</Tip>
+
+## After payment
+
+Once Stripe confirms the payment:
+
+- The order is recorded in your dashboard under **Orders**
+- For digital products, the customer receives an email with their download link automatically
+- For subscriptions, the customer's plan is activated immediately and they can manage it from the member portal

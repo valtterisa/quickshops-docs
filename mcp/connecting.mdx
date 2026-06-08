@@ -1,0 +1,153 @@
+---
+title: "Connecting an MCP Client to Quickshops"
+sidebarTitle: "Connecting"
+description: "Configure Claude Desktop, Cursor, or any custom MCP client to connect to your Quickshops store using your headless API key and the Streamable HTTP endpoint."
+---
+
+To connect an AI agent to your Quickshops store, you need a headless API key and the MCP server URL. Once connected, your AI client can call tools to browse your catalog, manage carts, and generate checkout links in real time.
+
+## Prerequisites
+
+Before connecting, retrieve your headless API key from **Dashboard → Settings → API Keys**. Keys prefixed with `qk_` are your headless keys. If you want your agent to create carts, initiate checkouts, or access the subscription portal, you need a **secret key** — not a public/read-only key.
+
+## Connection details
+
+| Setting | Value |
+|---|---|
+| URL | `https://mcp.quickshops.dev/mcp` |
+| Header | `x-api-key: qk_your_key_here` |
+| Transport | Streamable HTTP (MCP over HTTP + SSE) |
+
+## Connect your client
+
+<Tabs>
+  <Tab title="Claude Desktop">
+    Open your Claude Desktop configuration file (`claude_desktop_config.json`) and add the `quickshops` entry under `mcpServers`:
+
+    ```json claude_desktop_config.json
+    {
+      "mcpServers": {
+        "quickshops": {
+          "url": "https://mcp.quickshops.dev/mcp",
+          "headers": {
+            "x-api-key": "qk_your_key_here"
+          }
+        }
+      }
+    }
+    ```
+
+    Save the file and restart Claude Desktop. Quickshops tools will appear in the tool list when you start a new conversation.
+
+    <Tip>
+      Ask your assistant to list your products, create a test cart, or generate a checkout link to verify the connection is working.
+    </Tip>
+  </Tab>
+  <Tab title="Cursor">
+    Add the Quickshops server to your Cursor MCP configuration file at `.cursor/mcp.json` in your project root (or your global Cursor config):
+
+    ```json .cursor/mcp.json
+    {
+      "mcpServers": {
+        "quickshops": {
+          "url": "https://mcp.quickshops.dev/mcp",
+          "headers": {
+            "x-api-key": "qk_your_key_here"
+          }
+        }
+      }
+    }
+    ```
+
+    Reload Cursor after saving. The Quickshops tools will be available to Cursor's AI features within your project.
+
+    <Tip>
+      Ask your assistant to list your products, create a test cart, or generate a checkout link to verify the connection is working.
+    </Tip>
+  </Tab>
+  <Tab title="Custom client">
+    Any MCP client that supports Streamable HTTP transport can connect to Quickshops. Send a standard MCP `initialize` request as a `POST` to the endpoint with your API key in the header:
+
+    ```ts
+    // Step 1 — initialize the session
+    // POST https://mcp.quickshops.dev/mcp
+    // Headers:
+    //   x-api-key: qk_your_key_here
+    //   Content-Type: application/json
+    // Body: MCP initialize request
+    //
+    // The response includes a `mcp-session-id` header.
+    // Include that header on all subsequent requests.
+
+    // Step 2 — call a tool
+    // POST https://mcp.quickshops.dev/mcp
+    // Headers:
+    //   x-api-key: qk_your_key_here
+    //   Content-Type: application/json
+    //   mcp-session-id: <session id from step 1>
+    // Body: MCP tools/call request with tool name and arguments
+
+    // Step 3 — open the SSE stream for server notifications (optional)
+    // GET https://mcp.quickshops.dev/mcp
+    // Headers:
+    //   x-api-key: qk_your_key_here
+    //   mcp-session-id: <session id from step 1>
+
+    // Step 4 — terminate the session when done
+    // DELETE https://mcp.quickshops.dev/mcp
+    // Headers:
+    //   x-api-key: qk_your_key_here
+    //   mcp-session-id: <session id from step 1>
+    ```
+
+    <Tip>
+      Ask your assistant to list your products, create a test cart, or generate a checkout link to verify the connection is working.
+    </Tip>
+  </Tab>
+</Tabs>
+
+## Available tools
+
+Every tool maps directly to a REST API route. Tool names are derived from the HTTP method and path.
+
+<Note>
+  Tools that access cart, checkout, and subscription data require a **secret key**. Connecting with a public or read-only key means those tools will return an error when called. Read product tools (`get_products`, `get_products_productId`, `get_products_store`) work with any key type.
+</Note>
+
+### Store & products
+
+| Tool | Description |
+|---|---|
+| `get_products_store` | Get your store details and metadata |
+| `get_products` | List all products in your store |
+| `get_products_productId` | Get a single product by ID |
+
+### Cart (secret key required)
+
+| Tool | Description |
+|---|---|
+| `post_cart` | Create a new cart |
+| `get_cart_cartId` | Get cart contents including lines and totals |
+| `post_cart_cartId_lines` | Add a product to the cart |
+| `patch_cart_cartId_lines_productId` | Update an item's quantity |
+| `delete_cart_cartId_lines_productId` | Remove a specific item from the cart |
+| `delete_cart_cartId` | Clear the entire cart |
+
+### Checkout & subscriptions (secret key required)
+
+| Tool | Description |
+|---|---|
+| `post_checkout_session` | Create a Stripe checkout URL for a cart |
+| `post_subscription_portal` | Get a Stripe billing portal URL for a member |
+
+<Steps>
+  <Step title="Get your API key">
+    Go to **Dashboard → Settings → API Keys** and copy your headless API key. Use a secret key if you want your agent to manage carts and checkouts.
+  </Step>
+  <Step title="Add the MCP server to your client">
+    Use the configuration examples above for your client. Set the URL to `https://mcp.quickshops.dev/mcp` and add your key as the `x-api-key` header.
+  </Step>
+  <Step title="Verify the connection">
+    Start a conversation and ask your AI assistant to list your products. If it returns results, the connection is working. If it returns an error, double-check that the key is valid and that you are using the correct key type for the tools you are calling.
+  </Step>
+</Steps>

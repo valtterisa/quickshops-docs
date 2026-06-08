@@ -1,0 +1,109 @@
+---
+title: "Use the Quickshops SDK in your JavaScript framework"
+sidebarTitle: "Framework Guides"
+description: "Step-by-step examples for integrating the Quickshops SDK with Next.js, Astro, Remix, and TanStack Start in server-side contexts."
+---
+
+The Quickshops SDK works in any JavaScript framework that gives you a server-side execution context — loaders, server components, server actions, or API routes. The pattern is the same everywhere: instantiate the client once with your API key, then call methods in your server boundary and pass the results to your UI.
+
+<Note>
+  Always call the SDK inside a server-side context: a Server Component, loader,
+  server action, or API route handler. The SDK must never run in the browser.
+</Note>
+
+<Tabs>
+  <Tab title="Next.js (App Router)">
+    Next.js App Router gives you three natural places to call the SDK: Server Components for read operations, Server Actions for mutations, and Route Handlers for custom API endpoints.
+
+    **1. Create the shared client**
+
+    ```ts lib/quickshops.ts
+    import Quickshops from "@quickshops/sdk";
+
+    export const qs = new Quickshops({
+      apiKey: process.env.HEADLESS_API_KEY!,
+    });
+    ```
+
+    **2. Fetch data in a Server Component**
+
+    ```tsx app/page.tsx
+    import { qs } from "@/lib/quickshops";
+
+    export default async function Page() {
+      const [store, products] = await Promise.all([
+        qs.store.get(),
+        qs.products.getAll(),
+      ]);
+
+      return (
+        <main>
+          <h1>{store.name}</h1>
+          <ul>
+            {products.data.map((p) => (
+              <li key={p._id}>{p.name}</li>
+            ))}
+          </ul>
+        </main>
+      );
+    }
+    ```
+
+    **3. Mutate cart state in a Server Action**
+
+    ```ts app/actions.ts
+    "use server";
+
+    import { qs } from "@/lib/quickshops";
+
+    export async function addToCartAction(
+      cartId: string,
+      productId: string,
+      quantity: number,
+    ) {
+      return qs.cart.addLine(cartId, productId, quantity);
+    }
+    ```
+  </Tab>
+
+  <Tab title="Astro">
+    In Astro, call the SDK inside frontmatter in `.astro` files or inside server-rendered API endpoints. The frontmatter block runs on the server at request time (or build time for static pages).
+
+    ```ts src/pages/index.astro
+    import Quickshops from "@quickshops/sdk";
+
+    const qs = new Quickshops({ apiKey: import.meta.env.HEADLESS_API_KEY });
+    const products = await qs.products.getAll();
+    ```
+
+    Use `import.meta.env` instead of `process.env` to access Astro environment variables.
+  </Tab>
+
+  <Tab title="Remix">
+    In Remix, call the SDK inside `loader` and `action` functions. These always run on the server and are the right boundary for SDK usage.
+
+    ```ts app/routes/_index.tsx
+    import Quickshops from "@quickshops/sdk";
+
+    const qs = new Quickshops({ apiKey: process.env.HEADLESS_API_KEY! });
+
+    export async function loader() {
+      const products = await qs.products.getAll();
+      return Response.json(products);
+    }
+    ```
+
+    Instantiate the client at module scope so it is reused across requests in the same server process.
+  </Tab>
+
+  <Tab title="TanStack Start">
+    In TanStack Start, call the SDK inside server functions or server-side loaders. These contexts run exclusively on the server and have access to your environment variables.
+
+    ```ts app/routes/index.tsx
+    import Quickshops from "@quickshops/sdk";
+
+    const qs = new Quickshops({ apiKey: process.env.HEADLESS_API_KEY! });
+    const store = await qs.store.get();
+    ```
+  </Tab>
+</Tabs>

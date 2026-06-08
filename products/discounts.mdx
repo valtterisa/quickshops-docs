@@ -1,0 +1,90 @@
+---
+title: "Create Discount Codes for Your Store"
+sidebarTitle: "Discounts"
+description: "Offer promotional codes that give customers a percentage or fixed-amount reduction at checkout, with optional expiry dates and redemption limits."
+---
+
+Discount codes let you offer your customers a reduced price at checkout. You can create codes for launch promotions, reward loyal customers, or run limited-time sales. Each code can be configured with a discount amount, an optional expiry date, a redemption cap, and restrictions on which products it applies to.
+
+<Note>
+  Discount codes are case-insensitive at checkout. A customer entering `summer20`, `SUMMER20`, or `Summer20` will all apply the same code successfully.
+</Note>
+
+## Create a discount code
+
+<Steps>
+  <Step title="Open the Discounts section">
+    In your dashboard, click **Discounts** in the left sidebar, then click **Create Code**.
+  </Step>
+  <Step title="Set the code">
+    Enter the code customers will type at checkout — for example, `LAUNCH25` or `WELCOME10`. You can also click the refresh icon to generate a random code. The code is automatically uppercased when saved.
+
+    Optionally add an **Internal Name** (like "Summer Sale 2025") to help you identify the code in your dashboard without customers seeing it.
+  </Step>
+  <Step title="Choose the discount type and amount">
+    Select one of two discount types:
+
+    - **Percentage** — Deducts a percentage from the order total (for example, 20% off).
+    - **Fixed amount** — Deducts a specific currency amount (for example, $10 off).
+
+    Enter the discount value and, for fixed-amount codes, choose the currency (EUR, USD, or GBP).
+  </Step>
+  <Step title="Set the duration">
+    For subscription products, choose how long the discount applies:
+
+    - **Once** — Applied to the first payment only.
+    - **Repeating** — Applied for a specific number of months that you define.
+    - **Forever** — Applied to every payment for the life of the subscription.
+
+    For one-time digital products, the duration does not affect the checkout experience.
+  </Step>
+  <Step title="Configure optional limits">
+    - **Max redemptions** — Set a maximum number of times the code can be used in total. Leave empty for unlimited uses.
+    - **Expiration date** — Set a date after which the code is no longer accepted. Leave empty for no expiry.
+    - **Minimum order amount** — Require a minimum cart value before the code applies.
+  </Step>
+  <Step title="Restrict to specific products (optional)">
+    By default a discount code applies to all products in your store. Toggle **Limit to specific products** to restrict the code to selected catalog items only.
+  </Step>
+  <Step title="Save and activate">
+    Make sure the **Active** toggle is on, then click **Create Code**. The code is immediately available for customers to use at checkout.
+  </Step>
+</Steps>
+
+## How customers use a discount code
+
+At checkout, customers will see a **Discount code** field. They type or paste their code and click apply. The order total updates immediately to reflect the discount before they complete payment.
+
+## Discount code fields reference
+
+| Field | Required | Description |
+|---|---|---|
+| Code | Yes | The string customers enter at checkout. Case-insensitive. |
+| Internal name | No | A private label for your own reference, not shown to customers. |
+| Discount type | Yes | Percentage off or fixed amount off. Cannot be changed after creation. |
+| Duration | Yes | How long the discount applies (once, repeating, or forever). Primarily relevant for subscriptions. |
+| Max redemptions | No | Total number of times the code can be redeemed across all customers. |
+| Expiration date | No | The last date on which the code can be used. |
+| Minimum order amount | No | The minimum cart value required to apply the code. |
+| Limit to products | No | Restrict the code to specific products rather than the entire store. |
+
+## Tips for effective discount codes
+
+<CardGroup cols={2}>
+  <Card title="Time-limited launch codes" icon="rocket">
+    Set an expiration date tied to your product launch window to create urgency. For example, a 48-hour code for your announcement email list.
+  </Card>
+  <Card title="Exclusive codes for small groups" icon="users">
+    Use max redemptions to limit a code to a specific number of uses — useful for early-bird offers or influencer partnerships.
+  </Card>
+  <Card title="Minimum order codes" icon="cart-shopping">
+    Encourage larger purchases by requiring a minimum order amount before a code applies. Effective for bundle promotions.
+  </Card>
+  <Card title="Product-specific promotions" icon="tag">
+    Restrict a code to a single product when you want to discount one item without affecting the rest of your catalog.
+  </Card>
+</CardGroup>
+
+<Warning>
+  The discount type (percentage or fixed amount) and the discount value cannot be changed after a code is created. If you need a different value, deactivate the existing code and create a new one.
+</Warning>

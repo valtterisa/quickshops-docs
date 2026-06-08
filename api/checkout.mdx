@@ -1,0 +1,80 @@
+---
+title: "Checkout API — Quickshops Headless REST API"
+sidebarTitle: "Checkout"
+description: "POST /v1/checkout/session — creates a Stripe-hosted checkout session from a cart ID and returns a single-use redirect URL. Requires a secret key."
+---
+
+The Checkout endpoint converts a cart into a Stripe-hosted checkout session. You call this endpoint from your server, receive a URL, and redirect the customer's browser to that URL to complete payment. A secret key is required.
+
+<Note>
+  The checkout URL is single-use and expires after a short period. If a customer abandons checkout and returns to your storefront, generate a new checkout session rather than reusing the old URL.
+</Note>
+
+---
+
+## Create checkout session
+
+Creates a Stripe checkout session for the specified cart and returns a redirect URL.
+
+```
+POST /v1/checkout/session
+```
+
+### Body parameters
+
+<ParamField body="cartId" type="string" required>
+  The ID of the cart to check out. The cart must belong to the same store as the API key.
+</ParamField>
+
+### Request
+
+```bash
+curl -X POST https://api.quickshops.app/v1/checkout/session \
+  -H "x-api-key: qk_your_secret_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{ "cartId": "cart_01j..." }'
+```
+
+### Response
+
+```json
+{
+  "url": "https://checkout.stripe.com/c/pay/cs_live_..."
+}
+```
+
+<ResponseField name="url" type="string" required>
+  A Stripe-hosted checkout URL. Redirect the customer's browser to this URL to complete payment. The URL is single-use and expires after a short period.
+</ResponseField>
+
+### Redirecting the customer
+
+Call this endpoint from your server-side handler (API route, server action, or loader), then return the URL to the browser for the redirect. Never call it directly from client-side code — your secret API key must stay on the server.
+
+Here is an example server-side handler that creates the session and returns the URL:
+
+```typescript
+// Server-side only (API route, server action, or loader)
+const response = await fetch("https://api.quickshops.app/v1/checkout/session", {
+  method: "POST",
+  headers: {
+    "x-api-key": process.env.HEADLESS_API_KEY!,
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({ cartId }),
+});
+
+const { url } = await response.json();
+
+// Return the URL to your frontend so it can redirect the customer
+return { checkoutUrl: url };
+```
+
+Then in your client-side code, redirect using the URL returned from your server:
+
+```javascript
+// Client-side — after receiving the URL from your server endpoint
+window.location.href = checkoutUrl;
+```
+
+After the customer completes or cancels payment, Stripe redirects them to the success or cancel URL configured in your Quickshops dashboard.

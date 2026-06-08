@@ -1,0 +1,284 @@
+---
+title: "Cart API — Quickshops Headless REST API"
+sidebarTitle: "Cart"
+description: "Create and manage shopping carts server-side using the Quickshops Headless API. All cart endpoints require a secret key and return a full cart object."
+---
+
+The Cart endpoints let you create carts, add or update items, and clear them. All cart operations require a secret key. You should create a cart when a user begins shopping and persist the returned `id` in their browser session so subsequent requests can reference the same cart.
+
+<Note>
+  Store the `cartId` in the user's browser session (e.g. a cookie or `sessionStorage`). You will need it for every subsequent cart operation and when creating a checkout session.
+</Note>
+
+---
+
+## Create cart
+
+Creates a new, empty cart for your store.
+
+```
+POST /v1/cart
+```
+
+### Request
+
+```bash
+curl -X POST https://api.quickshops.app/v1/cart \
+  -H "x-api-key: qk_your_secret_key_here"
+```
+
+### Response
+
+```json
+{
+  "id": "cart_01j...",
+  "storeId": "store_01j...",
+  "lines": [],
+  "totals": {
+    "subtotal": 0,
+    "total": 0,
+    "currency": "usd"
+  }
+}
+```
+
+<ResponseField name="id" type="string" required>
+  Unique identifier for the cart. Persist this value in the user's session.
+</ResponseField>
+
+<ResponseField name="storeId" type="string" required>
+  Identifier of the store this cart belongs to.
+</ResponseField>
+
+<ResponseField name="lines" type="object[]" required>
+  Array of cart line items. Empty on a newly created cart.
+  <Expandable title="CartLineDto properties">
+    <ResponseField name="productId" type="string" required>
+      Identifier of the product in this line.
+    </ResponseField>
+    <ResponseField name="quantity" type="number" required>
+      Number of units of the product.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="totals" type="object" required>
+  Calculated totals for the cart.
+  <Expandable title="CartTotalsDto properties">
+    <ResponseField name="subtotal" type="number" required>
+      Sum of all line item prices in the smallest currency unit (e.g. cents).
+    </ResponseField>
+    <ResponseField name="total" type="number" required>
+      Final total after any adjustments, in the smallest currency unit.
+    </ResponseField>
+    <ResponseField name="currency" type="string" required>
+      ISO 4217 currency code in lowercase (e.g. `"usd"`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+---
+
+## Get cart
+
+Retrieves the current state of a cart.
+
+```
+GET /v1/cart/:cartId
+```
+
+### Path parameters
+
+<ParamField path="cartId" type="string" required>
+  The ID of the cart to retrieve.
+</ParamField>
+
+### Request
+
+```bash
+curl https://api.quickshops.app/v1/cart/cart_01j... \
+  -H "x-api-key: qk_your_secret_key_here"
+```
+
+### Response
+
+Returns a cart object with the same shape as [Create cart](#create-cart).
+
+```json
+{
+  "id": "cart_01j...",
+  "storeId": "store_01j...",
+  "lines": [
+    { "productId": "prod_01j...", "quantity": 2 }
+  ],
+  "totals": {
+    "subtotal": 3998,
+    "total": 3998,
+    "currency": "usd"
+  }
+}
+```
+
+---
+
+## Add item
+
+Adds a product to the cart. If the product is already in the cart, the quantity is increased by the amount you specify.
+
+```
+POST /v1/cart/:cartId/lines
+```
+
+### Path parameters
+
+<ParamField path="cartId" type="string" required>
+  The ID of the cart to add the item to.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="productId" type="string" required>
+  The ID of the product to add.
+</ParamField>
+
+<ParamField body="quantity" type="number" required>
+  The number of units to add.
+</ParamField>
+
+### Request
+
+```bash
+curl -X POST https://api.quickshops.app/v1/cart/cart_01j.../lines \
+  -H "x-api-key: qk_your_secret_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{ "productId": "prod_01j...", "quantity": 1 }'
+```
+
+### Response
+
+Returns the updated cart object.
+
+```json
+{
+  "id": "cart_01j...",
+  "storeId": "store_01j...",
+  "lines": [
+    { "productId": "prod_01j...", "quantity": 1 }
+  ],
+  "totals": {
+    "subtotal": 1999,
+    "total": 1999,
+    "currency": "usd"
+  }
+}
+```
+
+---
+
+## Update item quantity
+
+Sets the quantity of an existing line item. Use this to increase or decrease the quantity of a product already in the cart.
+
+```
+PATCH /v1/cart/:cartId/lines/:productId
+```
+
+### Path parameters
+
+<ParamField path="cartId" type="string" required>
+  The ID of the cart containing the item.
+</ParamField>
+
+<ParamField path="productId" type="string" required>
+  The ID of the product whose quantity you want to update.
+</ParamField>
+
+### Body parameters
+
+<ParamField body="quantity" type="number" required>
+  The new quantity for this line item.
+</ParamField>
+
+### Request
+
+```bash
+curl -X PATCH https://api.quickshops.app/v1/cart/cart_01j.../lines/prod_01j... \
+  -H "x-api-key: qk_your_secret_key_here" \
+  -H "Content-Type: application/json" \
+  -d '{ "quantity": 3 }'
+```
+
+### Response
+
+Returns the updated cart object.
+
+---
+
+## Remove item
+
+Removes a product from the cart entirely.
+
+```
+DELETE /v1/cart/:cartId/lines/:productId
+```
+
+### Path parameters
+
+<ParamField path="cartId" type="string" required>
+  The ID of the cart containing the item.
+</ParamField>
+
+<ParamField path="productId" type="string" required>
+  The ID of the product to remove.
+</ParamField>
+
+### Request
+
+```bash
+curl -X DELETE https://api.quickshops.app/v1/cart/cart_01j.../lines/prod_01j... \
+  -H "x-api-key: qk_your_secret_key_here"
+```
+
+### Response
+
+Returns the updated cart object with the item removed.
+
+---
+
+## Clear cart
+
+Removes all items from the cart, resetting it to an empty state.
+
+```
+DELETE /v1/cart/:cartId
+```
+
+### Path parameters
+
+<ParamField path="cartId" type="string" required>
+  The ID of the cart to clear.
+</ParamField>
+
+### Request
+
+```bash
+curl -X DELETE https://api.quickshops.app/v1/cart/cart_01j... \
+  -H "x-api-key: qk_your_secret_key_here"
+```
+
+### Response
+
+Returns the cart object with an empty `lines` array and zeroed `totals`.
+
+```json
+{
+  "id": "cart_01j...",
+  "storeId": "store_01j...",
+  "lines": [],
+  "totals": {
+    "subtotal": 0,
+    "total": 0,
+    "currency": "usd"
+  }
+}
+```

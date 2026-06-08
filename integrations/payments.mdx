@@ -1,0 +1,78 @@
+---
+title: "Accept Payments with Stripe on Quickshops"
+sidebarTitle: "Payments"
+description: "Connect your Stripe account to start accepting cards, Apple Pay, and Google Pay for one-time purchases and recurring subscriptions in your Quickshops store."
+---
+
+Quickshops uses Stripe to handle all payments in your store. Every checkout your customers go through is hosted by Stripe, which means payment data is processed on PCI-compliant infrastructure — you never touch raw card numbers. Once you connect your Stripe account, you can sell digital products and subscriptions immediately.
+
+## What you need
+
+<CardGroup cols={2}>
+  <Card title="Stripe account" icon="credit-card">
+    A free Stripe account at [stripe.com](https://stripe.com). You can sign up in minutes and start accepting payments right away.
+  </Card>
+  <Card title="Quickshops store" icon="store">
+    An active Quickshops store. Stripe connects at the store level, so each store has its own connection.
+  </Card>
+</CardGroup>
+
+## Connect Stripe to your store
+
+<Steps>
+  <Step title="Open your store settings">
+    In your Quickshops dashboard, go to **Settings → Payments**.
+  </Step>
+  <Step title="Start the connection">
+    Click **Connect Stripe**. You'll be redirected to Stripe's secure OAuth flow.
+  </Step>
+  <Step title="Authorize access">
+    Sign in to your Stripe account (or create one) and grant Quickshops permission to process payments on your behalf.
+  </Step>
+  <Step title="Return to your dashboard">
+    After authorizing, Stripe sends you back to Quickshops. Your store is now connected and ready to accept payments.
+  </Step>
+</Steps>
+
+<Tip>
+  If you already have a Stripe account with existing products or customers, connecting it here won't affect any of your existing Stripe data.
+</Tip>
+
+## What Stripe handles for you
+
+Once connected, Stripe takes care of the entire payment experience on your behalf.
+
+<CardGroup cols={2}>
+  <Card title="Checkout page" icon="lock">
+    Stripe hosts a secure, PCI-compliant checkout page for every purchase. You don't need to build or maintain one.
+  </Card>
+  <Card title="Receipts" icon="receipt">
+    Stripe automatically sends email receipts to your customers after every successful payment.
+  </Card>
+  <Card title="Subscription billing" icon="rotate-ccw">
+    For subscription products, Stripe handles recurring charges, retries on failed payments, and billing cycle management.
+  </Card>
+  <Card title="Refunds" icon="arrow-left">
+    Issue refunds directly from your Stripe dashboard. The amount is returned to the customer's original payment method.
+  </Card>
+</CardGroup>
+
+## Supported payment methods
+
+Stripe enables a range of payment methods for your customers without any extra setup on your part.
+
+- **Credit and debit cards** — Visa, Mastercard, American Express, and more
+- **Apple Pay** — available automatically on supported Apple devices and browsers
+- **Google Pay** — available automatically on supported Android devices and Chrome
+
+<Info>
+  Payment method availability can vary by country and customer device. Stripe determines which methods appear at checkout based on your account settings and the customer's location.
+</Info>
+
+## After a purchase
+
+When a customer completes checkout, Quickshops automatically delivers their digital product — no manual action required on your part. Download links, license keys, or access credentials are sent to the customer's email address immediately after payment is confirmed.
+
+<Note>
+  Payouts from Stripe go directly to the bank account linked to your Stripe account, on Stripe's standard payout schedule. You can manage payout settings from your [Stripe dashboard](https://dashboard.stripe.com).
+</Note>

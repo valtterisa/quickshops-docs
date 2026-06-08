@@ -1,0 +1,59 @@
+---
+title: "Install and configure the Quickshops JavaScript SDK"
+sidebarTitle: "Installation"
+description: "Install @quickshops/sdk, create a server-only client, and explore the complete method reference for building headless storefronts."
+---
+
+The Quickshops JavaScript SDK gives you a typed, server-side client for every API operation your storefront needs — from fetching products to managing carts and initiating checkout. Install it once, wire up your API key, and call any method from your server-side code.
+
+## Install the package
+
+```bash
+npm install @quickshops/sdk
+```
+
+## Create a server-only client
+
+The recommended pattern is to instantiate the SDK once in a dedicated file and re-export the client. Every framework has a different name for this file, but `lib/quickshops.ts` works well across the board.
+
+```ts lib/quickshops.ts
+import Quickshops from "@quickshops/sdk";
+
+export const qs = new Quickshops({
+  apiKey: process.env.HEADLESS_API_KEY!,
+});
+```
+
+Your API key must start with `qk_`. Passing any other string causes the constructor to throw a `QuickshopsError` with code `INVALID_API_KEY` before any network request is made.
+
+<Warning>
+  Never import or use this file in browser or client-side code. The `apiKey` is
+  a server secret. Bundling it into client JavaScript exposes it to anyone who
+  inspects your page source or network traffic.
+</Warning>
+
+## Method reference
+
+All SDK methods are `async` and return typed objects. They map directly to REST endpoints under `/v1`.
+
+| Method | Parameters | Returns | API endpoint |
+|---|---|---|---|
+| `qs.store.get()` | — | `StoreDto` | `GET /v1/products/store` |
+| `qs.products.getAll()` | — | `{ data: ProductDto[], nextCursor: null }` | `GET /v1/products` |
+| `qs.products.getById(id)` | `productId: string` | `ProductDto` | `GET /v1/products/:productId` |
+| `qs.cart.create()` | — | `CartDto` | `POST /v1/cart` |
+| `qs.cart.get(cartId)` | `cartId: string` | `CartDto` | `GET /v1/cart/:cartId` |
+| `qs.cart.addLine(cartId, productId, quantity)` | `cartId: string`, `productId: string`, `quantity: number` | `CartDto` | `POST /v1/cart/:cartId/lines` |
+| `qs.cart.updateLine(cartId, productId, quantity)` | `cartId: string`, `productId: string`, `quantity: number` | `CartDto` | `PATCH /v1/cart/:cartId/lines/:productId` |
+| `qs.cart.removeLine(cartId, productId)` | `cartId: string`, `productId: string` | `CartDto` | `DELETE /v1/cart/:cartId/lines/:productId` |
+| `qs.cart.clear(cartId)` | `cartId: string` | `CartDto` | `DELETE /v1/cart/:cartId` |
+| `qs.checkout.createSession(cartId)` | `cartId: string` | `{ url: string }` | `POST /v1/checkout/session` |
+| `qs.subscription.createPortalSession(memberSessionId)` | `memberSessionId: string` | `{ url: string }` | `POST /v1/subscription/portal` |
+
+### Key types
+
+`CartDto` includes the cart's `id`, `storeId`, an array of `lines` (`productId` + `quantity`), and `totals` (`subtotal`, `total`, `currency`).
+
+`ProductDto` includes `_id`, `name`, `description`, `priceInCents`, `currency`, `type` (`"digital"` or `"subscription"`), `billingInterval`, `imageUrl`, `isActive`, `category`, and `details`.
+
+`StoreDto` includes `_id`, `slug`, `name`, `description`, `logoUrl`, `isPublished`, and `paymentsConfigured`.

@@ -1,0 +1,79 @@
+---
+title: "Handle errors from the Quickshops SDK gracefully"
+sidebarTitle: "Error Handling"
+description: "Learn how QuickshopsError works, what fields it exposes, and how to catch and respond to common HTTP error conditions in your storefront."
+---
+
+Every failed SDK call throws a `QuickshopsError`. Because the SDK wraps all network communication, you get a consistent error shape regardless of whether the failure is an authentication problem, a rate limit, or a missing resource. Catching errors by type lets you respond precisely without parsing raw HTTP responses.
+
+## The `QuickshopsError` class
+
+`QuickshopsError` extends the native `Error` class and adds four fields:
+
+| Field | Type | Description |
+|---|---|---|
+| `message` | `string` | Human-readable description of the error |
+| `status` | `number` | HTTP status code returned by the API |
+| `code` | `string` | Machine-readable error code string |
+| `requestId` | `string \| undefined` | Unique request identifier, when available |
+
+## Catching errors
+
+Import `QuickshopsError` alongside the default export and use `instanceof` to distinguish SDK errors from other thrown values.
+
+```ts
+import Quickshops, { QuickshopsError } from "@quickshops/sdk";
+
+try {
+  const products = await qs.products.getAll();
+} catch (err) {
+  if (err instanceof QuickshopsError) {
+    console.error(err.status, err.code, err.message);
+  }
+}
+```
+
+## Common error codes
+
+| Status | Code | Cause |
+|---|---|---|
+| `401` | `UNAUTHORIZED` | Your API key is missing, malformed, or has been revoked |
+| `429` | `RATE_LIMIT_EXCEEDED` | Your requests have exceeded the allowed rate; back off and retry |
+| `404` | `NOT_FOUND` | The requested resource (product, cart, etc.) does not exist |
+| `400` | `INVALID_API_KEY` | The API key passed to the constructor does not start with `qk_` |
+
+## Handling errors by status
+
+You can branch on `err.status` to respond differently to each condition.
+
+```ts
+import { QuickshopsError } from "@quickshops/sdk";
+
+async function loadProducts() {
+  try {
+    return await qs.products.getAll();
+  } catch (err) {
+    if (err instanceof QuickshopsError) {
+      if (err.status === 401) {
+        // API key is invalid — check your environment variable
+        throw new Error("Store configuration error");
+      }
+      if (err.status === 429) {
+        // Rate limited — consider adding retry logic
+        throw new Error("Too many requests, please try again shortly");
+      }
+      if (err.status === 404) {
+        // Resource not found — handle gracefully in the UI
+        return null;
+      }
+    }
+    throw err;
+  }
+}
+```
+
+<Tip>
+  If an error persists and you need to contact support, include the `requestId`
+  field from the caught `QuickshopsError`. It uniquely identifies the failed
+  request and allows the support team to trace it in server logs.
+</Tip>

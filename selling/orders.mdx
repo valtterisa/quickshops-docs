@@ -1,0 +1,69 @@
+---
+title: "Viewing and Managing Orders in Your Dashboard"
+sidebarTitle: "Orders"
+description: "See every completed purchase in one place, understand order statuses, and learn how Quickshops automatically fulfills digital products after payment."
+---
+
+Every time a customer completes a payment, Quickshops creates an order record that you can review in your dashboard. The Orders page gives you a full picture of your sales activity — what was bought, by whom, when, and for how much. For digital products, fulfillment is completely automatic: you do not need to take any action after a sale.
+
+## Finding your orders
+
+Go to **Dashboard → Orders** to see the full list of purchases across your store. You can search by customer name or email, and filter by status or date range to narrow down exactly what you are looking for.
+
+<CardGroup cols={2}>
+  <Card title="Search and filter" icon="magnifying-glass">
+    Type a customer name or email in the search box to find specific orders instantly.
+  </Card>
+  <Card title="Filter by status" icon="filter">
+    Filter by Pending, Paid, Fulfilled, or Refunded to focus on a particular stage.
+  </Card>
+  <Card title="Filter by date" icon="calendar">
+    Narrow results to Today, Last 7 days, Last 30 days, or view all time.
+  </Card>
+  <Card title="View order details" icon="arrow-up-right">
+    Click "View details" on any order to see the full record including customer info and product.
+  </Card>
+</CardGroup>
+
+## What each order shows
+
+Each row in the orders list includes:
+
+- **Product** — the name of what was purchased, with an icon indicating whether it is a digital download or a subscription
+- **Status** — the current state of the order
+- **Customer** — the buyer's email address and name
+- **Date** — when the order was placed
+- **Amount** — the total charged for that order
+
+## Order statuses
+
+<AccordionGroup>
+  <Accordion title="Pending">
+    The order has been created but payment has not yet completed. This is a brief intermediate state during checkout.
+  </Accordion>
+  <Accordion title="Paid">
+    Payment was successfully captured by Stripe. For digital products, the download email is sent to the customer at this point.
+  </Accordion>
+  <Accordion title="Fulfilled">
+    The order has been fully delivered. Digital orders move to fulfilled once the download link has been sent.
+  </Accordion>
+  <Accordion title="Refunded">
+    The payment has been reversed. Refunds are processed through Stripe.
+  </Accordion>
+</AccordionGroup>
+
+## Automatic fulfillment for digital products
+
+When a customer pays for a digital product, Quickshops sends them an email containing their download link immediately after payment — no manual action required on your part. The order status reflects this automatically.
+
+<Info>
+  The order list shows the note "Download link was sent to customer automatically" beneath any paid digital order, so you always know fulfillment has happened.
+</Info>
+
+## Subscription orders
+
+Subscription purchases appear in the orders list alongside one-time purchases. When a customer subscribes, the initial payment creates an order entry. Subsequent recurring charges also appear here as new entries, giving you a clear record of every billing cycle.
+
+<Note>
+  Subscription orders include the Stripe subscription ID in their detail view, which you can use to cross-reference with your Stripe dashboard if needed.
+</Note>
