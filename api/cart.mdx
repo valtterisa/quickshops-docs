@@ -1,10 +1,10 @@
 ---
 title: "Cart API — Quickshops Headless REST API"
 sidebarTitle: "Cart"
-description: "Create and manage shopping carts server-side using the Quickshops Headless API. All cart endpoints require a secret key and return a full cart object."
+description: "Create and manage shopping carts server-side using the Quickshops Headless API. All cart endpoints require a valid API key and return a full cart object."
 ---
 
-The Cart endpoints let you create carts, add or update items, and clear them. All cart operations require a secret key. You should create a cart when a user begins shopping and persist the returned `id` in their browser session so subsequent requests can reference the same cart.
+The Cart endpoints let you create carts, add or update items, and clear them. All cart operations require a valid API key. You should create a cart when a user begins shopping and persist the returned `id` in their browser session so subsequent requests can reference the same cart.
 
 <Note>
   Store the `cartId` in the user's browser session (e.g. a cookie or `sessionStorage`). You will need it for every subsequent cart operation and when creating a checkout session.
@@ -24,7 +24,7 @@ POST /v1/cart
 
 ```bash
 curl -X POST https://api.quickshops.app/v1/cart \
-  -H "x-api-key: qk_your_secret_key_here"
+  -H "x-api-key: qk_your_key_here"
 ```
 
 ### Response
@@ -97,7 +97,7 @@ GET /v1/cart/:cartId
 
 ```bash
 curl https://api.quickshops.app/v1/cart/cart_01j... \
-  -H "x-api-key: qk_your_secret_key_here"
+  -H "x-api-key: qk_your_key_here"
 ```
 
 ### Response
@@ -149,7 +149,7 @@ POST /v1/cart/:cartId/lines
 
 ```bash
 curl -X POST https://api.quickshops.app/v1/cart/cart_01j.../lines \
-  -H "x-api-key: qk_your_secret_key_here" \
+  -H "x-api-key: qk_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{ "productId": "prod_01j...", "quantity": 1 }'
 ```
@@ -203,7 +203,7 @@ PATCH /v1/cart/:cartId/lines/:productId
 
 ```bash
 curl -X PATCH https://api.quickshops.app/v1/cart/cart_01j.../lines/prod_01j... \
-  -H "x-api-key: qk_your_secret_key_here" \
+  -H "x-api-key: qk_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{ "quantity": 3 }'
 ```
@@ -236,7 +236,7 @@ DELETE /v1/cart/:cartId/lines/:productId
 
 ```bash
 curl -X DELETE https://api.quickshops.app/v1/cart/cart_01j.../lines/prod_01j... \
-  -H "x-api-key: qk_your_secret_key_here"
+  -H "x-api-key: qk_your_key_here"
 ```
 
 ### Response
@@ -263,7 +263,7 @@ DELETE /v1/cart/:cartId
 
 ```bash
 curl -X DELETE https://api.quickshops.app/v1/cart/cart_01j... \
-  -H "x-api-key: qk_your_secret_key_here"
+  -H "x-api-key: qk_your_key_here"
 ```
 
 ### Response

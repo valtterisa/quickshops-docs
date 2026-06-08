@@ -1,7 +1,7 @@
 ---
 title: "Authenticating with the Quickshops Headless API"
 sidebarTitle: "Authentication"
-description: "Learn how to create and use API keys to authenticate requests to the Quickshops Headless API, including key types and rotation best practices."
+description: "Learn how to create and use your API key to authenticate requests to the Quickshops Headless API, including rotation best practices."
 ---
 
 Every request to a protected Quickshops Headless API endpoint must include an `x-api-key` header with a valid headless API key. Keys are issued from your Quickshops dashboard and always begin with `qk_`. The API never stores your key in plaintext — it is hashed before being looked up.
@@ -16,26 +16,15 @@ Every request to a protected Quickshops Headless API endpoint must include an `x
     Navigate to **Settings** in the sidebar, then select **API Keys**.
   </Step>
   <Step title="Create a key">
-    Click **Create key**, select the appropriate key type, and confirm.
+    Click **Create key**, give it a name, and confirm.
   </Step>
   <Step title="Copy the key immediately">
     The plaintext key is only shown once. Copy it and store it in a secure location such as an environment variable or a secrets manager. You cannot retrieve it again after leaving this screen.
   </Step>
 </Steps>
 
-## Key types
-
-There are two key types. Choose the one that matches the operations your integration needs to perform.
-
-| Key type   | Read products & store | Cart, checkout, subscriptions |
-| ---------- | --------------------- | ----------------------------- |
-| Public     | Yes                   | No                            |
-| Secret     | Yes                   | Yes                           |
-
-Use the most restrictive key type that your integration requires. If your storefront only needs to display products, a public key is sufficient. If you are managing carts or initiating checkout, you need a secret key.
-
 <Warning>
-  Never expose a secret key in client-side code or public repositories. Use secret keys only in server-side environments where they cannot be accessed by end users.
+  Never expose your API key in client-side code or public repositories. Use it only in server-side environments where it cannot be accessed by end users.
 </Warning>
 
 ## Using your API key
@@ -71,7 +60,6 @@ You can revoke a key at any time from **Settings → API Keys** in your dashboar
 | ---------------------------- | ------------------------------------------------------------------- |
 | `API key required`           | The `x-api-key` header was not included in the request.             |
 | `Missing or invalid API key` | The key is missing, malformed, or has been revoked.                 |
-| `Scope ... required`         | The endpoint requires a secret key but a public key was provided.   |
 | `Rate limit exceeded`        | The key or endpoint has exceeded its request limit. Retry later.    |
 
 All errors are returned as JSON with `status`, `code`, `message`, and `requestId` fields. See [Overview](/api/overview) for the full error format.

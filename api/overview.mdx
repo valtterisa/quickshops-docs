@@ -20,22 +20,22 @@ The API is currently at version `v1`. The version is part of the URL path. Break
 
 ## Routes
 
-The table below lists every available endpoint, whether authentication is required, and whether a secret key is needed.
+The table below lists every available endpoint and whether authentication is required.
 
-| Method     | Path                                    | Auth required | Secret key required |
-| ---------- | --------------------------------------- | ------------- | ------------------- |
-| `GET`      | `/v1/health`                            | No            | No                  |
-| `GET`      | `/v1/products/store`                    | Yes           | No                  |
-| `GET`      | `/v1/products`                          | Yes           | No                  |
-| `GET`      | `/v1/products/:productId`               | Yes           | No                  |
-| `GET`      | `/v1/cart/:cartId`                      | Yes           | Yes                 |
-| `POST`     | `/v1/cart`                              | Yes           | Yes                 |
-| `POST`     | `/v1/cart/:cartId/lines`                | Yes           | Yes                 |
-| `PATCH`    | `/v1/cart/:cartId/lines/:productId`     | Yes           | Yes                 |
-| `DELETE`   | `/v1/cart/:cartId/lines/:productId`     | Yes           | Yes                 |
-| `DELETE`   | `/v1/cart/:cartId`                      | Yes           | Yes                 |
-| `POST`     | `/v1/checkout/session`                  | Yes           | Yes                 |
-| `POST`     | `/v1/subscription/portal`               | Yes           | Yes                 |
+| Method     | Path                                    | Auth required |
+| ---------- | --------------------------------------- | ------------- |
+| `GET`      | `/v1/health`                            | No            |
+| `GET`      | `/v1/products/store`                    | Yes           |
+| `GET`      | `/v1/products`                          | Yes           |
+| `GET`      | `/v1/products/:productId`               | Yes           |
+| `GET`      | `/v1/cart/:cartId`                      | Yes           |
+| `POST`     | `/v1/cart`                              | Yes           |
+| `POST`     | `/v1/cart/:cartId/lines`                | Yes           |
+| `PATCH`    | `/v1/cart/:cartId/lines/:productId`     | Yes           |
+| `DELETE`   | `/v1/cart/:cartId/lines/:productId`     | Yes           |
+| `DELETE`   | `/v1/cart/:cartId`                      | Yes           |
+| `POST`     | `/v1/checkout/session`                  | Yes           |
+| `POST`     | `/v1/subscription/portal`               | Yes           |
 
 ## Authentication
 
@@ -46,7 +46,7 @@ curl https://api.quickshops.app/v1/products \
   -H "x-api-key: qk_your_key_here"
 ```
 
-Product read endpoints accept any valid key. Cart, checkout, and subscription endpoints require a **secret** key. See [Authentication](/api/authentication) for details on key types and how to obtain them.
+All protected endpoints require a valid API key in the `x-api-key` header. See [Authentication](/api/authentication) for how to create and use your key.
 
 ## Rate limiting
 
@@ -76,7 +76,7 @@ All errors return a JSON body with the following shape:
 
 <CardGroup cols={2}>
   <Card title="Authentication" icon="key" href="/api/authentication">
-    API keys, scopes, and how to authenticate requests.
+    API keys and how to authenticate requests.
   </Card>
   <Card title="Products" icon="package" href="/api/products">
     Fetch store and product data.

@@ -4,7 +4,7 @@ sidebarTitle: "Subscriptions"
 description: "Generate a Stripe billing portal URL so subscribers can manage their subscription, update payment details, or cancel via the Quickshops Headless API."
 ---
 
-The Subscriptions endpoint generates a Stripe billing portal URL for a specific subscriber. You call this endpoint from your server, receive a URL, and redirect the subscriber's browser to the portal. From there they can cancel their subscription, update their payment method, or view billing history. A secret key is required.
+The Subscriptions endpoint generates a Stripe billing portal URL for a specific subscriber. You call this endpoint from your server, receive a URL, and redirect the subscriber's browser to the portal. From there they can cancel their subscription, update their payment method, or view billing history.
 
 <Note>
   The `memberSessionId` is the session ID from your member authentication system that links the portal request to the correct subscriber in Quickshops. This value identifies which subscriber's billing portal to open — pass the session ID of the currently authenticated user.
@@ -30,7 +30,7 @@ POST /v1/subscription/portal
 
 ```bash
 curl -X POST https://api.quickshops.app/v1/subscription/portal \
-  -H "x-api-key: qk_your_secret_key_here" \
+  -H "x-api-key: qk_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{ "memberSessionId": "sess_01j..." }'
 ```
@@ -49,7 +49,7 @@ curl -X POST https://api.quickshops.app/v1/subscription/portal \
 
 ### Redirecting the subscriber
 
-Call this endpoint from your server-side handler using the authenticated subscriber's session ID. Return the URL to your frontend to perform the redirect. Keep your secret API key on the server.
+Call this endpoint from your server-side handler using the authenticated subscriber's session ID. Return the URL to your frontend to perform the redirect. Keep your API key on the server.
 
 ```typescript
 // Server-side only (API route, server action, or loader)

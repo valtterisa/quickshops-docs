@@ -50,7 +50,7 @@ All SDK methods are `async` and return typed objects. They map directly to REST 
 | `qs.checkout.createSession(cartId)` | `cartId: string` | `{ url: string }` | `POST /v1/checkout/session` |
 | `qs.subscription.createPortalSession(memberSessionId)` | `memberSessionId: string` | `{ url: string }` | `POST /v1/subscription/portal` |
 
-### Key types
+### Response types
 
 `CartDto` includes the cart's `id`, `storeId`, an array of `lines` (`productId` + `quantity`), and `totals` (`subtotal`, `total`, `currency`).
 

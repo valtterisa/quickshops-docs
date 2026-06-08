@@ -24,12 +24,12 @@
         {
           "anchor": "Dashboard",
           "icon": "layout-dashboard",
-          "href": "https://quickshops.dev"
+          "href": "https://dash.quickshops.app"
         },
         {
           "anchor": "Support",
           "icon": "life-buoy",
-          "href": "https://quickshops.dev"
+          "href": "https://cal.com/valtterisa/15min"
         }
       ]
     },
@@ -80,7 +80,7 @@
     "primary": {
       "type": "button",
       "label": "Get Started",
-      "href": "https://quickshops.dev"
+      "href": "https://quickshops.app"
     }
   },
   "footer": {

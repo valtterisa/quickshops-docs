@@ -1,10 +1,10 @@
 ---
 title: "Checkout API — Quickshops Headless REST API"
 sidebarTitle: "Checkout"
-description: "POST /v1/checkout/session — creates a Stripe-hosted checkout session from a cart ID and returns a single-use redirect URL. Requires a secret key."
+description: "POST /v1/checkout/session — creates a Stripe-hosted checkout session from a cart ID and returns a single-use redirect URL."
 ---
 
-The Checkout endpoint converts a cart into a Stripe-hosted checkout session. You call this endpoint from your server, receive a URL, and redirect the customer's browser to that URL to complete payment. A secret key is required.
+The Checkout endpoint converts a cart into a Stripe-hosted checkout session. You call this endpoint from your server, receive a URL, and redirect the customer's browser to that URL to complete payment.
 
 <Note>
   The checkout URL is single-use and expires after a short period. If a customer abandons checkout and returns to your storefront, generate a new checkout session rather than reusing the old URL.
@@ -30,7 +30,7 @@ POST /v1/checkout/session
 
 ```bash
 curl -X POST https://api.quickshops.app/v1/checkout/session \
-  -H "x-api-key: qk_your_secret_key_here" \
+  -H "x-api-key: qk_your_key_here" \
   -H "Content-Type: application/json" \
   -d '{ "cartId": "cart_01j..." }'
 ```
@@ -49,7 +49,7 @@ curl -X POST https://api.quickshops.app/v1/checkout/session \
 
 ### Redirecting the customer
 
-Call this endpoint from your server-side handler (API route, server action, or loader), then return the URL to the browser for the redirect. Never call it directly from client-side code — your secret API key must stay on the server.
+Call this endpoint from your server-side handler (API route, server action, or loader), then return the URL to the browser for the redirect. Never call it directly from client-side code — your API key must stay on the server.
 
 Here is an example server-side handler that creates the session and returns the URL:
 

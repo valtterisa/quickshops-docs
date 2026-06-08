@@ -42,13 +42,13 @@ x-api-key: qk_your_key_here
 Your key is validated on every HTTP request before it reaches the MCP layer. An invalid or missing key returns HTTP `401` immediately.
 
 <Warning>
-Tools that wrap cart, checkout, and subscription routes require a **secret key**. If you connect with a public (read-only) key, those tools will return a tool-level error when called. Read-only tools like `get_products` will still work.
+  Never expose your API key in client-side code or public repositories. Cart, checkout, and subscription tools perform write operations — use your key only in trusted server-side or MCP client configurations.
 </Warning>
 
 ## MCP server endpoint
 
 ```
-https://mcp.quickshops.dev/mcp
+https://mcp.quickshops.app/mcp
 ```
 
 <CardGroup cols={2}>
