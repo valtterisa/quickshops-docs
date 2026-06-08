@@ -60,14 +60,6 @@
           "integrations/telegram",
           "integrations/webhooks"
         ]
-      },
-      {
-        "group": "Developers",
-        "pages": [
-          "api/overview",
-          "sdk/installation",
-          "mcp/overview"
-        ]
       }
     ]
   },
